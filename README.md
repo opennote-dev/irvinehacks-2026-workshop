@@ -1,5 +1,7 @@
 # Making AI Feel Human
 
+**[Live Demo](https://link.opennote.com/ih26-workshop)**
+
 Why does most AI feel like a tool, and what does it take to make it feel like a collaborator?
 
 Every AI interaction starts the same way — a blank box. You have to know what to ask, frame the problem yourself, then figure out what to do with a wall of text. But the tools that actually feel good — autocomplete, spell check, Smart Compose — work because they already have your context. They don't wait for you to ask. They show up at the right moment, in the right place, and get out of the way if you don't need them.
