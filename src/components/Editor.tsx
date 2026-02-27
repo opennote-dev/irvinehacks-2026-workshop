@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 interface EditorProps {
   value: string;
@@ -10,9 +10,20 @@ interface EditorProps {
 
 export default function Editor({ value, onChange, placeholder }: EditorProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const isInternalChange = useRef(false);
+
+  useEffect(() => {
+    if (ref.current && !isInternalChange.current) {
+      if (ref.current.textContent !== value) {
+        ref.current.textContent = value;
+      }
+    }
+    isInternalChange.current = false;
+  }, [value]);
 
   const handleInput = useCallback(() => {
     if (ref.current) {
+      isInternalChange.current = true;
       onChange(ref.current.textContent || "");
     }
   }, [onChange]);

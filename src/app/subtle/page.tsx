@@ -5,6 +5,9 @@ import DemoShell from "@/components/DemoShell";
 import SubtleBad from "@/components/demos/SubtleBad";
 import SubtleGood from "@/components/demos/SubtleGood";
 
+const DEMO_TEXT =
+  "Hi team, I wanted to follow up on yesterday's standup. The main blocker right now is the API integration with the payments provider, and";
+
 export default function SubtlePage() {
   return (
     <DemoLayout
@@ -18,8 +21,12 @@ export default function SubtlePage() {
       <DemoShell
         badDescription="Modal popup with guilt-trip dismiss."
         goodDescription="Ghost text appears quietly. No interruptions."
-        bad={<SubtleBad />}
-        good={<SubtleGood />}
+        badDemoText={DEMO_TEXT}
+        goodDemoText={DEMO_TEXT}
+        badDemoHint="then wait for the modal"
+        goodDemoHint="then stop and wait for ghost text"
+        bad={(dt) => <SubtleBad demoText={dt} />}
+        good={(dt) => <SubtleGood demoText={dt} />}
       />
     </DemoLayout>
   );

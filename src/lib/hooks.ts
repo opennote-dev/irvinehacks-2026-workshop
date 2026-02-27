@@ -57,7 +57,9 @@ export function useSuggestion() {
       if (!res.ok) throw new Error("Failed to fetch suggestion");
 
       const data = await res.json();
-      setSuggestion(data.suggestion);
+      const raw = data.suggestion;
+      const needsSpace = text.length > 0 && !/\s$/.test(text);
+      setSuggestion(needsSpace ? " " + raw : raw);
     } catch (e: unknown) {
       if (e instanceof Error && e.name !== "AbortError") {
         console.error("Suggestion error:", e);

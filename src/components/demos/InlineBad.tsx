@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Editor from "@/components/Editor";
 
 interface Message {
@@ -9,12 +9,20 @@ interface Message {
   content: string;
 }
 
-export default function InlineBad() {
+export default function InlineBad({ demoText }: { demoText?: string | null }) {
   const [text, setText] = useState("");
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (demoText) setText(demoText);
+  }, [demoText]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isLoading]);
 
   const handleSend = useCallback(async () => {
     if (!chatInput.trim() || isLoading) return;
@@ -31,10 +39,6 @@ export default function InlineBad() {
 
     try {
       const chatMessages = [
-        {
-          role: "user" as const,
-          content: `Here's my current text:\n"${text}"`,
-        },
         ...messages.map((m) => ({
           role: m.role as "user" | "assistant",
           content: m.content,
@@ -45,7 +49,7 @@ export default function InlineBad() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: chatMessages }),
+        body: JSON.stringify({ messages: chatMessages, draft: text }),
       });
 
       const responseText = await res.text();
@@ -70,19 +74,15 @@ export default function InlineBad() {
     } finally {
       setIsLoading(false);
     }
-  }, [chatInput, text, isLoading]);
+  }, [chatInput, text, isLoading, messages]);
 
   return (
     <div>
-      <div className="flex gap-4 h-[220px]">
+      <div className="flex gap-4 h-[280px]">
         <div className="flex-1 [&>div]:h-full [&>div>div]:!min-h-0 [&>div>div]:h-full">
-          <Editor
-            value={text}
-            onChange={setText}
-            placeholder="Write here..."
-          />
+          <Editor value={text} onChange={setText} placeholder="Write here..." />
         </div>
-        <div className="w-[240px] flex flex-col rounded-lg border border-border bg-white">
+        <div className="w-[280px] flex flex-col rounded-lg border border-border bg-white">
           <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
             {messages.length === 0 && (
               <p className="text-xs text-muted/40">Ask something about your text...</p>
@@ -97,9 +97,7 @@ export default function InlineBad() {
                 </p>
               </div>
             ))}
-            {isLoading && (
-              <p className="text-xs text-muted">...</p>
-            )}
+            {isLoading && <p className="text-xs text-muted">...</p>}
             <div ref={messagesEndRef} />
           </div>
           <div className="px-3 py-2.5 border-t border-border">

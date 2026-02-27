@@ -5,15 +5,19 @@ import Editor from "@/components/Editor";
 import Modal from "@/components/Modal";
 import { useIdleDetection, useSuggestion } from "@/lib/hooks";
 
-export default function SubtleBad() {
+export default function SubtleBad({ demoText }: { demoText?: string | null }) {
   const [text, setText] = useState("");
-  const isIdle = useIdleDetection(text, 2000);
+  const isIdle = useIdleDetection(text, 1000);
   const { suggestion, loading, fetchSuggestion, clearSuggestion } =
     useSuggestion();
 
   const [showModal, setShowModal] = useState(false);
   const [confirmDismiss, setConfirmDismiss] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    if (demoText) setText(demoText);
+  }, [demoText]);
 
   useEffect(() => {
     if (isIdle && text.length >= 20 && !suggestion && !showModal) {
@@ -63,11 +67,7 @@ export default function SubtleBad() {
         </div>
       )}
 
-      <Editor
-        value={text}
-        onChange={setText}
-        placeholder="Start typing (20+ chars)..."
-      />
+      <Editor value={text} onChange={setText} placeholder="Start typing (20+ chars)..." />
 
       <Modal
         open={showModal}

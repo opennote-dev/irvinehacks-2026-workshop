@@ -25,9 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
+        <footer className="py-8 text-center text-sm text-muted">
+          Made by the <a href="https://opennote.me" className="underline hover:text-foreground transition-colors">Opennote</a> team for <a href="https://irvinehacks.com/" className="underline hover:text-foreground transition-colors">IrvineHacks 2026</a> · <a href="https://github.com/opennote-dev/irvinehacks-2026-workshop" className="underline hover:text-foreground transition-colors">GitHub</a>
+        </footer>
       </body>
     </html>
   );

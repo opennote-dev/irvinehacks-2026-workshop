@@ -5,6 +5,9 @@ import DemoShell from "@/components/DemoShell";
 import TimingBad from "@/components/demos/TimingBad";
 import TimingGood from "@/components/demos/TimingGood";
 
+const DEMO_TEXT =
+  "The human brain processes visual information in two stages. First, the retina captures light and converts it into electrical signals. Then the visual cortex";
+
 export default function TimingPage() {
   return (
     <DemoLayout
@@ -17,9 +20,13 @@ export default function TimingPage() {
     >
       <DemoShell
         badDescription="Fires on every keystroke. Watch the suggestion flicker."
-        goodDescription="Waits 2s after you stop. Min 20 chars."
-        bad={<TimingBad />}
-        good={<TimingGood />}
+        goodDescription="Waits 1s after you stop. Min 20 chars."
+        badDemoText={DEMO_TEXT}
+        goodDemoText={DEMO_TEXT}
+        badDemoHint="then keep typing"
+        goodDemoHint="then stop and wait 1s"
+        bad={(dt) => <TimingBad demoText={dt} />}
+        good={(dt) => <TimingGood demoText={dt} />}
       />
     </DemoLayout>
   );

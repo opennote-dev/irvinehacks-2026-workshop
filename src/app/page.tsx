@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const demos = [
   {
@@ -43,9 +44,7 @@ export default function Home() {
               <span className="text-foreground font-medium">{demo.title}</span>
               <span className="text-sm text-muted">{demo.description}</span>
             </div>
-            <span className="text-muted group-hover:text-foreground transition-colors">
-              &rarr;
-            </span>
+            <ArrowRight className="w-4 h-4 text-muted group-hover:text-foreground transition-colors" />
           </Link>
         ))}
       </div>

@@ -2,21 +2,25 @@ import { streamText } from "ai";
 import { model } from "@/lib/ai";
 
 export async function POST(req: Request) {
-  const { messages, model: modelName = "llama" } = await req.json();
+  const { messages, draft = "", model: modelName = "llama" } = await req.json();
 
   const result = streamText({
     model: model(modelName),
     maxOutputTokens: 200,
-    system: `You're a warm, sharp co-writer. The user is asking about their draft.
+    system: `You're a co-writer. The user is chatting with you about their draft.
 
-Voice rules:
-- Sound like a text from a smart friend, not a note from an editor.
-- Short. Most responses under 2 sentences.
-- Take positions. "This works" not "this has some positive qualities."
-- Point at specific things in their text.
-- No AI vocabulary: no "delve", "crucial", "furthermore", "noteworthy".
-- No teacher voice: no "you should consider", "it might be beneficial".
-- Contractions always.`,
+<draft>
+${draft || "(empty)"}
+</draft>
+
+Rules:
+- 1-2 sentences max. Be direct.
+- Use proper capitalization and punctuation.
+- Reference specific parts of their draft when relevant.
+- The user's messages are questions/comments about the draft above — not the draft itself.
+- No filler, no preamble, no "Great question!" or "That's interesting!"
+- No AI vocabulary: no "delve", "crucial", "furthermore", "noteworthy", "landscape".
+- Contractions always (you're, it's, doesn't).`,
     messages,
   });
 
