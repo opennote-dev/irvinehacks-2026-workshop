@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({
         <footer className="py-8 text-center text-sm text-muted">
           Made by the <a href="https://opennote.me" className="underline hover:text-foreground transition-colors">Opennote</a> team for <a href="https://irvinehacks.com/" className="underline hover:text-foreground transition-colors">IrvineHacks 2026</a> · <a href="https://github.com/opennote-dev/irvinehacks-2026-workshop" className="underline hover:text-foreground transition-colors">GitHub</a>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
